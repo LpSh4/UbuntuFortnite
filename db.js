@@ -1,11 +1,11 @@
 const { Pool } = require('pg');
-
+const prompt = require('prompt-sync')();
 const pool = new Pool({
     user: 'postgres',
-    host: '...',
+    host: prompt('Enter the host: '),
     database: 'applications',
-    password: '...',
-    port: 5432,
+    password: prompt('DB password: '),
+    port: prompt('DB port: '),
 });
 
 
