@@ -1,0 +1,69 @@
+<%- include('partials/header', {showslider: true, width: 100, maxwidth: 1200}) %>
+
+<div class="dashboard-header">
+    <h2>Добро пожаловать, <%= username %>!</h2>
+    <nav class="dashboard-nav">
+        <a href="/new-application" class="btn btn-secondary">Оставить новую заявку</a>
+        <a href="/logout" class="btn btn-logout">Выйти</a>
+    </nav>
+</div>
+
+<div class="dashboard-content">
+
+    <section class="dashboard-section">
+        <h3>Мои заявки</h3>
+        <% if (applications.length > 0) { %>
+            <table class="data-table">
+                <thead>
+                <tr>
+                    <th>Название курса</th>
+                    <th>Дата начала</th>
+                    <th>Оплата</th>
+                    <th>Статус</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% applications.forEach(app => { %>
+                    <tr>
+                        <td><%= app.course_name %></td>
+                        <td><%= new Date(app.start_date).toLocaleDateString('ru-RU') %></td>
+                        <td><%= app.payment_method %></td>
+                        <td><span class="status status-<%= app.status.replace(' ', '-') %>"><%= app.status %></span></td>
+                    </tr>
+                <% }) %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p>У вас пока нет заявок.</p>
+        <% } %>
+    </section>
+
+    <section id="user-dashboard" class="dashboard-section <%= visibility %> dashboard-section-reviews">
+        <h3>Оставить отзыв</h3>
+        <form action="/review" method="POST" class="review-form">
+            <div class="form-group">
+                <label for="review_text">Ваш отзыв о качестве услуг:</label>
+                <textarea id="review_text" name="review_text" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Отправить отзыв</button>
+        </form>
+    </section>
+
+    <section class="dashboard-section">
+        <h3>Мои отзывы</h3>
+        <% if (reviews.length > 0) { %>
+            <div class="review-list">
+                <% reviews.forEach(review => { %>
+                    <div class="review-item">
+                        <p><%= review.review_text %></p>
+                        <small>Оставлено: <%= new Date(review.created_at).toLocaleString('ru-RU') %></small>
+                    </div>
+                <% }) %>
+            </div>
+        <% } else { %>
+            <p>Вы еще не оставляли отзывов.</p>
+        <% } %>
+    </section>
+</div>
+
+<%- include('partials/footer') %>

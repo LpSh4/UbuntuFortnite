@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корочки.есть</title>
+    <link rel="icon" href="/image/image04.ico">
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header class="main-header">
+    <div class="container">
+        <h1><a href="">Корочки.есть</a></h1>
+        <nav>
+        </nav>
+    </div>
+</header>
+<main class="container" style="width: <%= width %>%; max-width: <%= maxwidth %>px;">
+    <% if (showslider) { %>
+    <div class="slider-container">
+        <div class="slider">
+            <div class="slide active">
+                <img src="/image/image06.jpg" alt="Корочки быстро">
+                <div class="slide-caption">
+                    <h3>Официальные корочки</h3>
+                    <p>Гарантия подлинности 100%</p>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="/image/image07.jpg" alt="Доставка по РФ">
+                <div class="slide-caption">
+                    <h3>Доставка по всей России</h3>
+                    <p>От 3 дней</p>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="/image/image08.webp" alt="Низкие цены">
+                <div class="slide-caption">
+                    <h3>Доступные цены</h3>
+                    <p>От 2990 ₽</p>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="/image/image13.webp" alt="Консультация">
+                <div class="slide-caption">
+                    <h3>Бесплатная консультация</h3>
+                    <p>Поможем выбрать нужный документ</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Стрелки -->
+        <button class="slider-prev"><i class="fas fa-chevron-left"></i></button>
+        <button class="slider-next"><i class="fas fa-chevron-right"></i></button>
+
+        <!-- Точки -->
+        <div class="slider-dots"></div>
+    </div>
+    <% } %>

@@ -1,0 +1,102 @@
+<%- include('partials/header', {showslider: false, width: 100, maxwidth: 1500}) %>
+
+<div class="dashboard-header">
+    <h2>Панель Администратора</h2>
+    <nav class="dashboard-nav">
+        <a href="/logout" class="btn btn-logout">Выйти (Admin)</a>
+    </nav>
+</div>
+
+<section class="dashboard-section">
+    <h3>Все заявки пользователей</h3>
+
+    <div class="filter-container" style="margin-bottom: 20px; background: #f4f4f4; padding: 15px; border-radius: 8px;">
+        <form action="/admin" method="GET" style="display: flex; gap: 15px; align-items: flex-end;">
+
+            <div class="filter-group">
+                <label for="course_filter" style="display: block; font-weight: bold; margin-bottom: 5px;">Фильтр по курсу:</label>
+                <select name="course_filter" id="course_filter" style="padding: 5px;">
+                    <option value="">Все курсы</option>
+                    <% availableCourses.forEach(c => { %>
+                        <option value="<%= c.course_name %>" <%= filters.course === c.course_name ? 'selected' : '' %>>
+                            <%= c.course_name %>
+                        </option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="status_filter" style="display: block; font-weight: bold; margin-bottom: 5px;">Фильтр по статусу:</label>
+                <select name="status_filter" id="status_filter" style="padding: 5px;">
+                    <option value="">Все статусы</option>
+                    <option value="Новая" <%= filters.status === 'Новая' ? 'selected' : '' %>>Новая</option>
+                    <option value="Идет обучение" <%= filters.status === 'Идет обучение' ? 'selected' : '' %>>Идет обучение</option>
+                    <option value="Обучение завершено" <%= filters.status === 'Обучение завершено' ? 'selected' : '' %>>Обучение завершено</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-small" style="height: 35px;">Применить</button>
+
+            <% if (filters.course || filters.status) { %>
+                <a href="/admin" class="btn btn-logout" style="height: 35px; line-height: 35px; text-decoration: none; padding: 0 15px;">Сбросить (Flush)</a>
+            <% } %>
+        </form>
+    </div>
+    <% if (applications.length > 0) { %>
+        <div class="table-wrapper">
+            <table class="data-table admin-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Пользователь</th>
+                    <th>Email / Телефон</th>
+                    <th>Курс</th>
+                    <th>Дата начала</th>
+                    <th>Оплата</th>
+                    <th>Статус</th>
+                    <th>Изменить статус</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% applications.forEach(app => { %>
+                    <tr>
+                        <td><%= app.application_id %></td>
+                        <td><%= app.last_name %> <%= app.first_name %></td>
+                        <td><%= app.email %><br><%= app.phone %></td>
+
+                        <td style="<%= filters.course ? 'background-color: #e3f2fd;' : '' %>">
+                            <%= app.course_name %>
+                        </td>
+
+                        <td><%= new Date(app.start_date).toLocaleDateString('ru-RU') %></td>
+                        <td><%= app.payment_method %></td>
+
+                        <td style="<%= filters.status ? 'background-color: #e3f2fd;' : '' %>">
+                            <span class="status status-<%= app.status.replace(' ', '-') %>"><%= app.status %></span>
+                        </td>
+
+                        <td>
+                            <form action="/admin/update-status" method="POST" class="admin-status-form">
+                                <input type="hidden" name="application_id" value="<%= app.application_id %>">
+                                <select name="new_status">
+                                    <option value="Новая" <%= app.status === 'Новая' ? 'selected' : '' %>>Новая</option>
+                                    <option value="Идет обучение" <%= app.status === 'Идет обучение' ? 'selected' : '' %>>Идет обучение</option>
+                                    <option value="Обучение завершено" <%= app.status === 'Обучение завершено' ? 'selected' : '' %>>Обучение завершено</option>
+                                </select>
+                                <button type="submit" class="btn btn-small">✓</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+                </tbody>
+            </table>
+        </div>
+    <% } else { %>
+        <p>Заявок по данным критериям не найдено.</p>
+        <% if (filters.course || filters.status) { %>
+            <a href="/admin">Показать все</a>
+        <% } %>
+    <% } %>
+</section>
+
+<%- include('partials/footer') %>
