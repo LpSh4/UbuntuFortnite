@@ -6,10 +6,10 @@ const db = require('../db');
 // Middleware: Check Admin (Unchanged)
 const checkAdmin = (req, res, next) => {
     if (req.session.userId && req.session.role === 'admin') {
-        next();
-    } else {
-        res.redirect('/login');
-    }
+    next();
+} else {
+    res.redirect('/login');
+}
 };
 router.use(checkAdmin);
 

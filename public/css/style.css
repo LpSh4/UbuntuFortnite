@@ -538,13 +538,16 @@ main.container {
     color: var(--secondary-color);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 590px) {
     html {
         font-size: 15px;
     }
 
     .container {
+        width: 90% !important;
         padding: 0 12px;
+        max-width: 1500px;
+        margin: 0 auto;
     }
 
     .main-header h1 {
